@@ -8,3 +8,5 @@ edition = "2018"
 
 [dependencies]
 objects = {path = "../objects"}
+chrono = "0.4"
+shared_parser = {path = "../shared_parser"}
