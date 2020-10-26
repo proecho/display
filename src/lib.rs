@@ -5,6 +5,9 @@ use chrono::{DateTime, TimeZone, NaiveDateTime, Utc,};
 use std::time::SystemTime;
 use shared_parser::{Event_parser,time_inside};
 
+
+//loads a file and creates a linked list containing the entrys from it, list is ordered with the list ordered push function
+//this means that the list should be ordered by time.
 fn load_days_reminders(date_filename:String)->LinkedList<entrys>{
 	let todays_file_string = match fs::read_to_string (date_filename){
 		Ok(a) => Some(a),
@@ -42,6 +45,8 @@ fn load_days_reminders(date_filename:String)->LinkedList<entrys>{
 	}
 }	
 
+//pushes an event to this list oredered based
+//on the time component of the datetime feild
 fn list_ordered_push(item:entrys, mut list:LinkedList<entrys>) -> LinkedList<entrys> {
 	if list == (LinkedList::new()){
 		list.push_back(item);
@@ -72,7 +77,8 @@ fn list_ordered_push(item:entrys, mut list:LinkedList<entrys>) -> LinkedList<ent
 	return list
 }
 			
-			
+
+//a function to show the  days events			
 fn show_events(){			
    	let Date = DateTime::<Utc>::from(SystemTime::now()).date();
 	let date_filename = format!("{:?}.txt",Date);
@@ -82,16 +88,27 @@ fn show_events(){
 
 #[cfg(test)]
 mod tests {
+	use super::*;
     #[test]
     fn it_works() {
         assert_eq!(2 + 2, 4);
     }
+    #[test]
     fn test_load_days_reminders(){
-		let test_string = "/n Todo Title timmy /n Datetime /n List long elephant /n # Events Title rosy /n DateTime /n Description it's about elephants /n Attendees many elephants /n # ".to_string();
+		let test_string = "/n Todo Title timmy /n Datetime 2014-11-28T12:45:59.324310806Z /n List long elephant /n # Events Title rosy /n DateTime 2014-11-28T12:30:59.324310806Z /n Description it's about elephants /n Attendees many elephants /n # ".to_string();
 		fs::write("test_file.txt", test_string);
-		load_days_reminders("test_file.txt");
-		
+		let test_list = load_days_reminders("test_file.txt");
+		let Title = "rosy".to_string();
+		let DateTime = DateTime::from("2014-11-28T12:30:59.324310806Z");
+		let Description = "it's about elephants".to_string();
+		let Attendees = many elephants 
+		assert_eq!(test_list[0], entrys::Events(Events::new(
+		    Title,
+		    DateTime,
+		    Description,
+		    Attendees,
+		)));
 	}
-		
+		    	
 
 }
