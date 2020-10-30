@@ -4,6 +4,7 @@ use std::fs;
 use chrono::{DateTime, TimeZone, NaiveDateTime, Utc,};
 use std::time::SystemTime;
 use shared_parser::{Event_parser,time_inside};
+use std::{thread, time};
 
 
 //loads a file and creates a linked list containing the entrys from it, list is ordered with the list ordered push function
@@ -84,17 +85,27 @@ fn show_events(){
 	let date_filename = format!("{:?}.txt",Date);
 	let todays_list = load_days_reminders(date_filename);
 	let mut length = todays_list.len();
-	let a = 0
-	while a < length {
-        if time_inside(todays_list[a]) > SystemTime::now().DateTime::<Utc>::from().time(){
-			println!("{:?}", show(today_list[a]));
+	while length > 0 {
+		let a = todays_list.front();
+        if time_inside(a) > (DateTime::<Utc>::from(SystemTime::now()).time()){
+			show(a);
+			length = todays_list.len();
+		    todays_list.pop_front();
+			
+		}else{
+			thread::sleep(time::Duration::from_secs(10));
 		}
+
 	}
 }	
 
-fn show(entry:entrys) -> String {
-	entry
-	
+fn show(entry:entrys) {
+	match entry {
+		entrys::Todo(a) => println!("{:?}", a.save_display()),
+		entrys::Events(b) => println!("{:?}", b.save_display()),
+		entrys::appointments(c) => println!("{:?}", c.save_display()),
+	}
+}
 	
 
 #[cfg(test)]
