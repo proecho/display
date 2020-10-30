@@ -82,7 +82,18 @@ fn list_ordered_push(item:entrys, mut list:LinkedList<entrys>) -> LinkedList<ent
 fn show_events(){			
    	let Date = DateTime::<Utc>::from(SystemTime::now()).date();
 	let date_filename = format!("{:?}.txt",Date);
+	let todays_list = load_days_reminders(date_filename);
+	let mut length = todays_list.len();
+	let a = 0
+	while a < length {
+        if time_inside(todays_list[a]) > SystemTime::now().DateTime::<Utc>::from().time(){
+			println!("{:?}", show(today_list[a]));
+		}
+	}
 }	
+
+fn show(entry:entrys) -> String {
+	entry
 	
 	
 
